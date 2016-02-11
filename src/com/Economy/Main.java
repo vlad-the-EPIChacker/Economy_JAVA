@@ -2,24 +2,20 @@ package com.Economy;
 //imports
 import javafx.util.Pair;
 
-import com.Economy.Time;
+import com.Economy.TimeThread;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
-/*
-def tmain():
-    while not shut:
-        time.sleep(f)
-        tm=tm+1
- */
+
 public class Main {
 
     //fields
-    static Time _tm;
+    static TimeThread _tm;
 
     public static void main(String[] args) {
 
-        _tm=new Time();
+        _tm=new TimeThread();
+        _tm.start();
 
         //commands
         Hashtable<String,Pair<Runnable, String>> commands=new Hashtable<String,Pair<Runnable, String>>();
@@ -35,7 +31,13 @@ public class Main {
         commands.put("/exit",
                 new Pair<Runnable, String>(
                         () -> {
+                            _tm._shut=true;
+                            try {
 
+                                _tm.join(1000);
+
+                            }
+                            catch(Exception a){}
                             System.out.println("Exiting... Please Standby");
                             System.exit(0);
                             }, "Exits Game"));
