@@ -4,10 +4,12 @@ public class TimeThread extends Thread{
 
     int _tm;
     boolean _shut;
+    float _f;
     public TimeThread(){
 
         _tm=0;
         _shut=false;
+        _f=1;
 
     }
     public void tick() {
@@ -22,10 +24,14 @@ public class TimeThread extends Thread{
         try {
 
         while(!_shut){
+            int fi=(int)_f;
+            float dif=_f-fi;
+            for (int i = 0; i < fi && !_shut; i++){
+                Thread.sleep(1000);
+            }
+            Thread.sleep((long)(1000*dif));
 
-            Thread.sleep(1000);
             tick();
-
         }
 
         } catch(InterruptedException e) {
